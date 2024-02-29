@@ -2,7 +2,7 @@ local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Sidhsksjs
 local wndw = lib:Window("VIP Turtle Hub V4 - The best script in 2024 :V")
 local T1 = wndw:Tab("Main")
 local T2 = wndw:Tab("Relics draw")
-local T4 = wndw:Tab("Character")
+local T4 = wndw:Tab("Character & Hero")
 local T5 = wndw:Tab("Slots")
 local T6 = wndw:Tab("Potions")
 local T7 = wndw:Tab("Boss Server")
@@ -98,11 +98,19 @@ T4:Button("Transform",function()
       game:GetService("ReplicatedStorage")["Events"]["Hero"]["ChangeCharacter"]:FireServer(_G.roleid)
 end)
 
+T4:Button("Level up",function()
+      game:GetService("ReplicatedStorage")["Events"]["Hero"]["LevelHero"]:InvokeServer(_G.roleid)
+end)
+
+T4:Button("Enhance hero",function()
+      game:GetService("ReplicatedStorage")["Events"]["Hero"]["EnhanceHero"]:InvokeServer(_G.roleid,"1")
+end)
+
 T5:Dropdown("Select slots ID",{"Slot001","Slot002","Slot003","Slot004","Slot005"},function(value)
     _G.slotid = value
 end)
 
-T5:Toggle("Auto claim slots",false,function(value)
+T5:Toggle("Auto claim slots [ GACOR 🔥 ]",false,function(value)
     _G.slotking = value
     while wait() do
       if _G.slotking == false then break end
