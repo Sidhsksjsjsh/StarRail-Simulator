@@ -7,6 +7,7 @@ local T5 = wndw:Tab("Slots")
 local T6 = wndw:Tab("Potions")
 local T7 = wndw:Tab("Boss Server")
 local T3 = wndw:Tab("Redeem codes")
+local T8 = wndw:Tab("Teleport")
 
 local relic = {}
 local role = {}
@@ -136,4 +137,12 @@ T7:Button("Claim all boss quests",function()
       for array = 1,#quest do
             game:GetService("ReplicatedStorage")["Events"]["ServerBoss"]["ClaimReward"]:FireServer(quest[array])
       end
+end)
+
+T8:Dropdown("Select world ID",{"World001","World002","World003","World004","World005"},function(value)
+    _G.wid = value
+end)
+
+T8:Button("Teleport",function()
+      game:GetService("ReplicatedStorage")["Events"]["World"]["Rf_Teleport"]:InvokeServer(_G.wid)
 end)
