@@ -7,7 +7,7 @@ local T3 = wndw:Tab("Redeem codes")
 local relic = {}
 local codes = {"1klike","StarRail","Release"}
 local workspace = game:GetService("Workspace")
-local user {
+local user = {
       uid = game.Players.LocalPlayer.UserId,
       self = game:GetService("Players").LocalPlayer
 }
