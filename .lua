@@ -69,11 +69,19 @@ T2:Dropdown("Select relic ID",relic,function(value)
     _G.relid = value
 end)
 
+T2:Dropdown("Select hatch",{"X1","X3"},function(value)
+    _G.htcid = value
+end)
+
 T2:Toggle("Auto draw relic",false,function(value)
     _G.drawrel = value
     while wait() do
       if _G.drawrel == false then break end
-      game:GetService("ReplicatedStorage")["Events"]["Pets"]["Re_Draw"]:FireServer("Hatch",_G.relid,{})
+            if _G.htcid == "X1" then
+                  game:GetService("ReplicatedStorage")["Events"]["Pets"]["Re_Draw"]:FireServer("Hatch",_G.relid,{})
+            elseif _G.htcid == "X3" then
+                  game:GetService("ReplicatedStorage")["Events"]["Pets"]["Re_Draw"]:FireServer("TripleHatch",_G.relid,{})
+            end
     end
 end)
 
@@ -99,11 +107,11 @@ T4:Button("Transform",function()
       game:GetService("ReplicatedStorage")["Events"]["Hero"]["ChangeCharacter"]:FireServer(_G.roleid)
 end)
 
-T4:Button("Level up",function()
+T4:Button("Level up hero",function()
       game:GetService("ReplicatedStorage")["Events"]["Hero"]["LevelHero"]:InvokeServer(_G.roleid)
 end)
 
-T4:Button("Enhance hero",function()
+T4:Button("Enchane hero",function()
       game:GetService("ReplicatedStorage")["Events"]["Hero"]["EnhanceHero"]:InvokeServer(_G.roleid,"1")
 end)
 
