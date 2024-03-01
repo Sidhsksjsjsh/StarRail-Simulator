@@ -8,6 +8,8 @@ local T6 = wndw:Tab("Potions")
 local T7 = wndw:Tab("Boss Server")
 local T3 = wndw:Tab("Redeem codes")
 local T8 = wndw:Tab("Teleport")
+local T9 = wndw:Tab("Golden & Rainbow")
+local T10 = wndw:Tab("Config")
 
 local relic = {}
 local role = {}
@@ -15,6 +17,7 @@ local codes = {"1klike","StarRail","Release"}
 local workspace = game:GetService("Workspace")
 local potion = {"Gacha001","Gacha002","Gacha003","Gacha004","Gacha005"}
 local quest = {"BossQuest001","BossQuest002","BossQuest003","BossQuest004","BossQuest005"}
+local entID = {}
 local user = {
       uid = game.Players.LocalPlayer.UserId,
       self = game:GetService("Players").LocalPlayer
@@ -103,6 +106,10 @@ T4:Dropdown("Select character ID",role,function(value)
     _G.roleid = value
 end)
 
+T4:Dropdown("Select skills to enchane",{"1","2","3"},function(value)
+    _G.slid = value
+end)
+
 T4:Button("Transform",function()
       game:GetService("ReplicatedStorage")["Events"]["Hero"]["ChangeCharacter"]:FireServer(_G.roleid)
 end)
@@ -112,7 +119,11 @@ T4:Button("Level up hero",function()
 end)
 
 T4:Button("Enchane hero",function()
-      game:GetService("ReplicatedStorage")["Events"]["Hero"]["EnhanceHero"]:InvokeServer(_G.roleid,"1")
+      game:GetService("ReplicatedStorage")["Events"]["Hero"]["EnhanceHero"]:InvokeServer(_G.roleid,_G.slid)
+end)
+
+T4:Button("Buy hero",function()
+      game:GetService("ReplicatedStorage")["Events"]["Hero"]["ClaimHero"]:FireServer(_G.roleid)
 end)
 
 T5:Dropdown("Select slots ID",{"Slot001","Slot002","Slot003","Slot004","Slot005"},function(value)
@@ -153,4 +164,38 @@ end)
 
 T8:Button("Teleport",function()
       game:GetService("ReplicatedStorage")["Events"]["World"]["Rf_Teleport"]:InvokeServer(_G.wid)
+end)
+
+T9:Toggle("Instant Gold [ BETA ]",false,function(value)
+      _G.insGold = value
+end)
+
+T9:Toggle("Instant Rainbow [ BETA ]",false,function(value)
+      _G.insRb = value
+end)
+
+T10:Slider("Radius [ MAX = 500 ]",user.Radius.Value,500,16,function(value)
+      _G.rad = value
+end)
+
+T1:Toggle("TP to enemies [ Nearest ]",false,function(value)
+    _G.tpchina = value
+    while wait() do
+      if _G.tpchina == false then break end
+      user.Character.HumanoidRootPart.CFrame = workspace["Enemies"][user.ServerTarget].Position * CFrame.new(0,0,1.5)
+    end
+end)
+
+lib:HookCalled(function(self,args)
+     if args[1] == "Golden" and _G.insGold == true then
+            args[2][2] = args[2][1]
+            args[2][3] = args[2][1]
+            args[2][4] = args[2][1]
+            return self.FireServer(self,unpack(args))
+      elseif args[1] == "Rainbow" and _G.insRb == true then
+            args[2][2] = args[2][1]
+            args[2][3] = args[2][1]
+            args[2][4] = args[2][1]
+            return self.FireServer(self,unpack(args))
+      end
 end)
